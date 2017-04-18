@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 65bc9622093355245b2beb58e8d49520
+timeCreated: 1492503082
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: KG HAPPY Solid
+  fontNames:
+  - KG HAPPY Solid
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
