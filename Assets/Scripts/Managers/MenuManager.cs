@@ -61,14 +61,6 @@ public class MenuManager : MonoBehaviour {
     {
         instance = this;
     }
-
-    void Update()
-    {
-        /*if(currentWindow.color.a != 1)
-        {
-            currentWindow.color = new Color(1, 1, 1, currentWindow.color.a + 1 * Time.deltaTime);
-        }*/
-    }
 	
 	public void MenuAction(int option)
     {
