@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 public class MathHelper
 {
@@ -28,5 +29,48 @@ public class MathHelper
         return result.magnitude;
     }
 
+    public static T[][] FindCombinations<T>(T[] seq)
+    {
+        var powerSet = new T[1 << seq.Length][];
+        powerSet[0] = new T[0]; // starting only with empty set
+        for (var i = 0; i < seq.Length; i++)
+        {
+            var cur = seq[i];
+            var count = 1 << i; // doubling list each time
+            for (var j = 0; j < count; j++)
+            {
+                var source = powerSet[j];
+                var destination = powerSet[count + j] = new T[source.Length + 1];
+                for (var q = 0; q < source.Length; q++)
+                    destination[q] = source[q];
+                destination[source.Length] = cur;
+            }
+        }
+        return powerSet;
+    }
 
+    public static List<List<int>> GetCombinationSet<T>(T[][] seq)
+    {
+        List<List<int>> combinations = new List<List<int>>();
+        for (var i = 0; i < seq.Length; i++)
+        {
+            var line = new StringBuilder();
+            for (var j = 0; j < seq[i].Length; j++)
+            {
+                line.AppendFormat("{0},", seq[i][j]);
+            }
+            if (line.ToString() != "")
+            {    
+                string temp = line.ToString().TrimEnd(',');
+                string[] data = temp.Split(',');
+                List<int> set = new List<int>();
+                for (int h = 0; h < data.Length; h++)
+                {
+                    set.Add(int.Parse(data[h]));
+                }
+                combinations.Add(set);
+            }
+        }
+        return combinations;
+    }
 }
