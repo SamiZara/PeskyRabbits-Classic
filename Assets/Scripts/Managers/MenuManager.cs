@@ -9,10 +9,32 @@ public class MenuManager : MonoBehaviour {
     private Image currentWindow;
     public static MenuManager instance;
     public static int selectedLevel,currentPage;
-    int maxLevelAchieved = 25;
-    int pageCount;
+    int maxLevelAchieved;
+    int pageCount,isMute;
+    public Image soundButton;
+    public AudioSource loop;
+    private static bool isSecond;
     void Start () {
-        //int maxLevelAchieved = PlayerPrefs.GetInt("MaxLevel");
+        if (isSecond)
+        {
+            Destroy(loop.gameObject);
+            loop = GameObject.Find("BackgroundLoopSound").GetComponent<AudioSource>();
+        }
+        else
+        {
+            DontDestroyOnLoad(loop.gameObject); 
+        }
+        isSecond = true;
+        ResizeSpriteToScreen();
+        maxLevelAchieved = PlayerPrefs.GetInt("MaxLevel",0);
+        maxLevelAchieved = 25;
+        isMute = PlayerPrefs.GetInt("Sound", 0);
+        if(isMute == 1)
+        {
+            isMute = 0;
+            MenuAction(6);
+        }
+        ReferenceManager.instance.totalStar.text = PlayerPrefs.GetInt("TotalStar",0).ToString();
         int pageCount = maxLevelAchieved / 15;
         if(pageCount > 0)
         {
@@ -73,13 +95,12 @@ public class MenuManager : MonoBehaviour {
                 ReferenceManager.instance.windowLevelSelection.gameObject.SetActive(false);
                 break;
             case 2:
-                Debug.Log(selectedLevel);
                 SceneManager.LoadScene("Game");
                 break;
             case 3:
                 currentPage--;
                 ReferenceManager.instance.levelSelectionRightButton.interactable = true;
-                if (currentPage < 0)
+                if (currentPage <= 0)
                     ReferenceManager.instance.levelSelectionLeftButton.interactable = false;
                 GameObject currentRow = null;
                 for (int i = 0; i < 15; i++)
@@ -118,7 +139,7 @@ public class MenuManager : MonoBehaviour {
             case 4:
                 
                 currentPage++;
-                Debug.Log(currentPage);
+                //Debug.Log(currentPage);
                 ReferenceManager.instance.levelSelectionLeftButton.interactable = true;
                 if (currentPage >= pageCount)
                     ReferenceManager.instance.levelSelectionRightButton.interactable = false;
@@ -156,6 +177,48 @@ public class MenuManager : MonoBehaviour {
                     currentItem.transform.GetChild(0).GetComponent<Text>().text = (i + 1 + currentPage * 15).ToString();
                 }
                 break;
+            case 5://Like Button
+#if UNITY_ANDROID
+                Application.OpenURL("market://details?q=pname:com.mycopmany.myapp/");
+#endif
+#if UNITY_IPHONE
+                //Apple store link
+#endif
+                break;
+            case 6://Sound Button
+                if(isMute == 0)
+                {
+                    loop.volume = 0;
+                    isMute = 1;
+                    soundButton.color = new Color(0.5f, 0.5f, 0.5f);
+                    PlayerPrefs.SetInt("Sound", 1);
+                }
+                else if(isMute == 1)
+                {
+                    loop.volume = 1;
+                    isMute = 0;
+                    soundButton.color = new Color(1,1,1);
+                    PlayerPrefs.SetInt("Sound", 0);
+                }
+                break;
+            case 7://Leaderboard
+                //Social.ShowLeaderboardUI();
+                break;
         }
+    }
+
+    void ResizeSpriteToScreen()
+    {
+        var sr = ReferenceManager.instance.background.GetComponent<Image>();
+        if (sr == null) return;
+
+        float width = sr.sprite.bounds.size.x;
+        float height = sr.sprite.bounds.size.y;
+        float ratio = width / height;
+        float worldScreenHeight = Screen.height;
+        float worldScreenWidth = Screen.width;
+        float ratio2 = worldScreenWidth / worldScreenHeight;
+        //Debug.Log(ratio + "," + ratio2);
+        ReferenceManager.instance.background.transform.localScale = new Vector3(ratio2/ratio, 1,1);
     }
 }
