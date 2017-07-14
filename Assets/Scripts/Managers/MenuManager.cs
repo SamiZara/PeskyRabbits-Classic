@@ -179,7 +179,7 @@ public class MenuManager : MonoBehaviour {
                 break;
             case 5://Like Button
 #if UNITY_ANDROID
-                Application.OpenURL("market://details?q=pname:com.mycopmany.myapp/");
+                Application.OpenURL("http://play.google.com/store/apps/details?id=com.hivebay.reboot");
 #endif
 #if UNITY_IPHONE
                 //Apple store link

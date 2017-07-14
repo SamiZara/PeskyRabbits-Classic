@@ -77,8 +77,13 @@ public class GameManager : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("MaxLevel",MenuManager.selectedLevel);
             }
-            
-            //Leaderboard HighScore report
+            AdManager.instance.LevelEnded();
+            int highScore = PlayerPrefs.GetInt("HighScore",0);
+            if(score > highScore)
+            {
+                PlayerPrefs.SetInt("HighScore", score);
+
+            }
         }
     }
 

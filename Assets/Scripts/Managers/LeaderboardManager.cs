@@ -66,9 +66,5 @@ public class LeaderboardManager : MonoBehaviour
         Social.ShowLeaderboardUI();
     }
 
-    public void callback()
-    {
-
-    }
 #endif
 }

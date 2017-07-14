@@ -379,7 +379,7 @@ public class Map : MonoBehaviour
         {
             if (!CanMoveDown())
             {
-                Debug.Log("Durdu");
+                //Debug.Log("Durdu");
                 return;
             }
             //Debug.Log(playerMapPoint);
@@ -614,7 +614,7 @@ public class Map : MonoBehaviour
             DrawPolygon(polygonList[minAreaIndex].ToArray());
             orderAllPoints();
             ChangeVulnurableWalls(allPoints);
-            MapToString();
+            //MapToString();
             currentShapePoints.Clear();
             CheckEnemyInsidePolygon(polygonList[minAreaIndex].ToArray());
             isDrawing = false;
